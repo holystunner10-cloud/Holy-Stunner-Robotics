@@ -1,0 +1,6 @@
+{
+  "name": "Holy Stunner Robotics",
+  "description": "Simulation game to engineer robots, code AI neural brains, quality-test prototypes, fulfill citizen delivery orders, and transform the city with autonomous cars, drones, and AI life.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
