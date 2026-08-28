@@ -19,21 +19,18 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
           
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: 8.9.1  # <- must match AGP 8.5.1
+      - name: Setup Gradle and Generate Wrapper
+        uses: gradle/actions/wrapper-validation@v4
 
-      - name: Generate Gradle wrapper if missing
+      - name: Generate Gradle wrapper 8.9.1
         run: |
-          if [ ! -f "./gradlew" ]; then
-            echo "gradlew not found, generating wrapper..."
-            gradle wrapper --gradle-version 8.9.1  # <- CHANGED TO 8.9.1
-          fi
+          curl -L https://services.gradle.org/distributions/gradle-8.9.1-bin.zip -o gradle.zip
+          unzip gradle.zip
+         ./gradle-8.9.1/bin/gradle wrapper --gradle-version 8.9.1
           chmod +x gradlew
 
       - name: Build debug APK
-        run: ./gradlew assembleDebug
+        run:./gradlew assembleDebug
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
