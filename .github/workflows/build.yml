@@ -29,6 +29,8 @@ jobs:
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
 
       - name: Prepare build environment
         run: |
@@ -44,14 +46,12 @@ jobs:
             base64 -d debug.keystore.base64 > debug.keystore
           fi
 
-          # Generate Gradle wrapper if gradlew is not present in repo
-          if [ ! -f gradlew ]; then
-            gradle wrapper
-          fi
+          # Ensure Gradle wrapper is pinned to 8.11.1
+          gradle wrapper --gradle-version 8.11.1
           chmod +x gradlew
 
       - name: Build Debug APK
-        run: ./gradlew assembleDebug --stacktrace
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload Debug APK Artifact
         uses: actions/upload-artifact@v4
