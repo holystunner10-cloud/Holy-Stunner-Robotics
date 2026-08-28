@@ -5,12 +5,10 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -20,15 +18,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-
-      - name: Set up Gradle
+          
+      - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: 8.9.1  # <- must match AGP 8.5.1
 
       - name: Generate Gradle wrapper if missing
         run: |
           if [ ! -f "./gradlew" ]; then
             echo "gradlew not found, generating wrapper..."
-            gradle wrapper --gradle-version 8.9.1
+            gradle wrapper --gradle-version 8.9.1  # <- CHANGED TO 8.9.1
           fi
           chmod +x gradlew
 
